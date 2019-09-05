@@ -1,0 +1,9 @@
+Flask==1.0.2
+Flask-Cors==3.0.7
+numpy==1.16.2
+numpydoc==0.8.0
+pandas==0.24.2
+psycopg2==2.8.2
+requests==2.21.0
+requests-oauthlib==1.2.0
+selenium==3.141.0
