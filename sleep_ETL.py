@@ -103,16 +103,14 @@ def request_sleep_data(token: dict, start_date: str, end_date: str) -> pd.DataFr
         date_interval = datespace(start_date, end_date, step=100)
         for i_date in date_interval:
             j_date = i_date + timedelta(days=99)
+            print(i_date, j_date)
             endpoint = f'https://api.fitbit.com/1.2/user/{user_id}/sleep/date/{i_date}/{j_date}.json'
             res = requests.get(endpoint, headers = headers)
             new_data = json.loads(res.text)
             if 'sleep' in new_data.keys(): 
-                new_df = pd.DataFrame(new_data['sleep'])
+                new_df = pd.concat([new_df, pd.DataFrame(new_data['sleep'])])
             else: 
                 raise ValueError(new_data['errors'][0]['message'])
-
-            new_df = pd.concat([new_df, pd.DataFrame(new_data['sleep'])])
-
 
         new_df.sort_values('startTime', inplace=True)
         new_df.reset_index(inplace=True, drop=True)
@@ -127,9 +125,7 @@ def request_sleep_data(token: dict, start_date: str, end_date: str) -> pd.DataFr
             new_df = pd.DataFrame(new_data['sleep'])
         else: 
             raise ValueError(new_data['errors'][0]['message'])
-        
-        new_df = pd.DataFrame(new_data['sleep'])
-
+      
 
     return new_df
 
@@ -201,13 +197,9 @@ def parse_sleep_data(sleep_df: pd.DataFrame) -> pd.DataFrame:
     new_df = pd.DataFrame()
     new_df['start'] = sleep_df['startTime'].apply(parse_datetime)
     new_df['end'] = sleep_df['endTime'].apply(parse_datetime)     
-    new_df['bed'] = sleep_df['timeInBed']
-    new_df['effi'] = sleep_df['efficiency']
-    new_df['asleep'] = sleep_df['minutesAsleep']
     new_df['light'] = sleep_df['levels'].apply(parse_stage, stage='light')
     new_df['rem'] = sleep_df['levels'].apply(parse_stage, stage='rem')
     new_df['deep'] = sleep_df['levels'].apply(parse_stage, stage='deep')
-    new_df['awake'] = sleep_df['minutesAwake']
     new_df['awakening'] = sleep_df['levels'].apply(parse_stage, stage='wake')
 
     new_df.sort_values('start', inplace=True)
@@ -329,20 +321,15 @@ if __name__ == "__main__":
         try: 
             print('> creating a sleep table...')
             cur = conn.cursor()
-            cur.execute('create table sleep (' +
-                '"start" timestamp,' +
-                '"end" timestamp,'+
-                'bed integer,' +
-                'effi integer,' +
-                'asleep integer,' +
-                'light integer,' +
-                'rem integer,' +
-                'deep integer,' +
-                'awake integer,' +
-                'awakening integer,' +
-                'user_id varchar,' +
-                'primary key (start));'   
-                )
+            cur.execute('''CREATE TABLE SLEEP (
+                            "start" TIMESTAMP PRIMARY KEY,
+                            "end" TIMESTAMP,
+                            light INT,
+                            rem INT,
+                            deep INT,
+                            awakening INT,
+                            user_id CHAR(6));''' 
+                        )
             
             cur.close()
         
@@ -359,16 +346,14 @@ if __name__ == "__main__":
         for ind in range(sleep.shape[0]):
             start = str(sleep_null.loc[ind, 'start'])
             end = str(sleep_null.loc[ind, 'end'])
-            bed = sleep_null.loc[ind, 'bed']
-            effi = sleep_null.loc[ind, 'effi']
-            asleep = sleep_null.loc[ind, 'asleep']
             light = sleep_null.loc[ind, 'light']
             rem = sleep_null.loc[ind, 'rem']
             deep = sleep_null.loc[ind, 'deep']
-            awake = sleep_null.loc[ind, 'awake']
             awakening = sleep_null.loc[ind, 'awakening']
             cur.execute(
-                f"insert into sleep values ('{start}','{end}',{bed},{effi},{asleep},{light},{rem},{deep},{awake},{awakening}, '{user_id}') on conflict do nothing;")
+                f'''INSERT INTO SLEEP (start, "end", light, rem, deep, awakening, user_id) 
+                        VALUES ('{start}','{end}',{light},{rem},{deep},{awakening},'{user_id}')
+                            ON CONFLICT (start) DO NOTHING;''')
         cur.close()
         conn.commit() #indiv commit
         
