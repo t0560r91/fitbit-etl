@@ -9,7 +9,7 @@
 ### Featuers:
 - Fully automated once the appropriate credentials are given. 
 - Can be used over multiple user accounts.
-- Transform the data into CSV format. 
+
 
 
 ### Instruction:
