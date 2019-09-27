@@ -3,6 +3,7 @@ import random
 import os
 import base64
 import json
+import yaml
 from selenium.webdriver import Firefox
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -17,8 +18,12 @@ client_secret = app_creds['client_secret']
 encoded_client_cred = base64.b64encode(bytes(f'{client_id}:{client_secret}', 'utf'))
 
 
-with open('var/creds/user-creds.json', 'r') as f:
-    users = json.load(f)
+# with open('var/creds/user-creds.json', 'r') as f:
+#     users = json.load(f)
+
+with open('var/users.yaml', 'r') as f:
+    users = yaml.load(f)
+
 
 
 
@@ -130,13 +135,26 @@ if __name__ == "__main__":
 
 
 
-    # Log in
-    for user in users:
-        email = user['email']
-        password = user['password']
+    # # Log in
+    # for user in users:
+    #     email = user['email']
+    #     password = user['password']
+    #     try: 
+    #         print(f"> logging in: {email}")
+    #         login(email, password)
+    #     except: 
+    #         print("> something went wrong, please try again.")
+
+
+    for user_id in users.keys():
+        account_id = users[user_id]['accountID']
+        password = users[user_id]['password']
         try: 
-            print(f"> logging in: {email}")
-            login(email, password)
+            with open('var/user_id.txt', 'w+') as f:
+                f.write(user_id)
+            print(f"> logging in: {account_id}")
+            login(account_id, password)
+            
         except: 
             print("> something went wrong, please try again.")
 

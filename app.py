@@ -33,10 +33,11 @@ def home():
             }
         data = f'client_id={client_id}&grant_type=authorization_code&redirect_uri=http%3A%2F%2F127.0.0.1%3A5000&code={code}'
         token = json.loads(requests.post(url, headers=headers, data=data).text)
-        user_id = token['user_id']
 
         # export token
         if 'tokens' not in os.listdir('var'): os.mkdir('var/tokens/')
+        with open('var/user_id.txt', 'r') as f:
+            user_id = f.read()
         with open(f'var/tokens/token_{user_id}.json', 'w') as f:
             json.dump(token, f)
         return flask.jsonify(token)
