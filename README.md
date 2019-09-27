@@ -59,7 +59,7 @@ app:
 db:
    host: <your DB host DNS>
    port: <your DB host Port>
-   databse: <your DB name>
+   database: <your DB name>
    user_id: <your DB user_id>
    password: <your DB password>
    
