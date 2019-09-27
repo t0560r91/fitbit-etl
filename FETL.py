@@ -17,24 +17,20 @@ import psycopg2 as pg
 
 
 
-with open('var/creds/app-creds.json', 'r') as f:
-    app_creds = json.load(f)
+with open('var/config.yaml', 'r') as f:
+    config = yaml.load(f)
+    app_creds = config['app']
+    db_creds = config['db']
 
 client_id = app_creds['client_id']
 client_secret = app_creds['client_secret']
 encoded_client_cred = base64.b64encode(bytes(f'{client_id}:{client_secret}', 'utf'))
 
-
-
-
-with open('var/creds/rds-creds.json', 'r') as f:
-    rds_creds = json.load(f)
-
-host = rds_creds['host']
-port = rds_creds['port']
-database = rds_creds['database']
-rds_user_id = rds_creds['user_id']
-password = rds_creds['password']
+host = db_creds['host']
+port = db_creds['port']
+database = db_creds['database']
+rds_user_id = db_creds['user_id']
+password = db_creds['password']
 
 
 

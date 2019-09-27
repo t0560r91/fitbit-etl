@@ -9,17 +9,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 
-with open('var/creds/app-creds.json', 'r') as f:
-    app_creds = json.load(f)
-
+with open('var/config.yaml', 'r') as f:
+    config = yaml.load(f)
+    app_creds = config['app']
 
 client_id = app_creds['client_id']
 client_secret = app_creds['client_secret']
 encoded_client_cred = base64.b64encode(bytes(f'{client_id}:{client_secret}', 'utf'))
 
-
-# with open('var/creds/user-creds.json', 'r') as f:
-#     users = json.load(f)
 
 with open('var/users.yaml', 'r') as f:
     users = yaml.load(f)
