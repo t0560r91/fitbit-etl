@@ -70,18 +70,24 @@ conda install --file requirements.txt
 }
 ```
 
-8. Fill in the credentials for one or more Fitbit user accounts into ```var/creds/user-creds.json```.
+8. Fill in the credentials for one or more Fitbit user information into ```var/users.yaml```.
 ```
-[
-   {
-      "email" : your_fitbit_user_account_1_email,
-      "password" : your_fitbit_user_account_1_password
-   },
-   {
-      "email" : your_fitbit_user_account_2_email,
-      "password" : your_fitbit_user_account_2_password
-   }
-]
+user1:
+   name: USER1_NAME
+   bod: USER1_BOD
+   gender: USER1_GENDER
+   country: USER1_COUNTRY
+   accountID: USER1_ACCOUNTID
+   password: USER1_PASSWORD
+   
+user2:
+   name: USER2_NAME
+   bod: USER2_BOD
+   gender: USER2_GENDER
+   country: USER2_COUNTRY
+   accountID: USER2_ACCOUNTID
+   password: USER2_PASSWORD
+   
 ```
 9. Automate login process over all the user accoutns by running login.py. 
    Once authenticated, there is no need to run this every time you want to extract data. 
