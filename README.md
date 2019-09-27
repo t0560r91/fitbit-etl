@@ -48,47 +48,45 @@ cd fitbit-etl
 conda install --file requirements.txt
 ```
 
-6. Fill in the credentials for your registered Fitbit Application into ```var/creds/app-creds.json```.
+6. Fill in the credentials for your registered Fitbit Application and target database into ```var/conf.yaml```.
    If you don't already have one registered, register one from https://dev.fitbit.com/apps/new. 
-``` 
-{
-  "client_id" : your_client_id,
-  "client_secret" : your_client_secrete
- }
- ```
-
-
-7. Fill in the credentials for your AWS RDS into ```var/creds/rds-creds.json```. 
    If you don't already have AWS RDS instance established for your database, do so from https://console.aws.amazon.com/rds/home. 
 ```
-{
-  "host" : your_AWS_RDS_host_DNS,
-  "port" : your_AWS_RDS_host_port,
-  "database" : your_AWS_RDS_database_name,
-  "user_id" : your_AWS_RDS_user_id,
-  "password" : your_AWS_RDS_password
-}
+app:
+   client_id: <your client id>
+   client_secret: <your client secrete>
+   
+db:
+   host: <your DB host DNS>
+   port: <your DB host Port>
+   databse: <your DB name>
+   user_id: <your DB user_id>
+   password: <your DB password>
+   
 ```
 
-8. Fill in the credentials for one or more Fitbit user information into ```var/users.yaml```.
+7. Fill in one or more Fitbit user information into ```var/users.yaml```.
 ```
 user1:
-   name: USER1_NAME
-   bod: USER1_BOD
-   gender: USER1_GENDER
-   country: USER1_COUNTRY
-   accountID: USER1_ACCOUNTID
-   password: USER1_PASSWORD
+   name: <user's name>
+   bod: <user's bod in "%Y-%m-%d">
+   gender: <user's gender in string>
+   country: <user's coutry of residence in string> 
+   accountID: <user's Fitbit account ID>
+   password: <user's Fitbit accound password>
    
 user2:
-   name: USER2_NAME
-   bod: USER2_BOD
-   gender: USER2_GENDER
-   country: USER2_COUNTRY
-   accountID: USER2_ACCOUNTID
-   password: USER2_PASSWORD
+   name: <user's name>
+   bod: <user's bod in "%Y-%m-%d">
+   gender: <user's gender in string>
+   country: <user's coutry of residence in string> 
+   accountID: <user's Fitbit account ID>
+   password: <user's Fitbit accound password>
    
+user3:
+   ...
 ```
+
 9. Automate login process over all the user accoutns by running login.py. 
    Once authenticated, there is no need to run this every time you want to extract data. 
 
@@ -99,7 +97,7 @@ python login.py
 10. Extract, transform, and load your sleep data into your AWS RDS database by executing sleep_ETL.py. 
 
 ```
-python sleep_ETL.py
+python FETL.py
 ```
 
 
