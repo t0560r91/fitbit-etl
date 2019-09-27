@@ -1,12 +1,12 @@
 # Fitbit Data (sleep) ETL
 
 
-### Purposes:
+### Purpose:
 - Allows curious individuals to easily access their sleep data and store them in a database for further statistical analysis.
 - Simplifies and automate the ETL processes for sleep researchers to collect their subjects' sleep data into a database for further statistical analysis.
 
 
-### Featuers:
+### Featuer:
 - Fully automated once the appropriate credentials are given. 
 - Can be used over multiple user accounts.
 
