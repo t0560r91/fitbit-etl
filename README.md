@@ -48,7 +48,7 @@ cd fitbit-etl
 conda install --file requirements.txt
 ```
 
-6. Fill in the credentials for your registered Fitbit Application and target database into ```var/conf.yaml```.
+6. Fill in the credentials for your registered Fitbit Application and target database into ```var/config.yaml```.
    If you don't already have one registered, register one from https://dev.fitbit.com/apps/new. 
    If you don't already have AWS RDS instance established for your database, do so from https://console.aws.amazon.com/rds/home. 
 ```
