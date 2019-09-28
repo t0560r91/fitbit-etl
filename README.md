@@ -16,7 +16,7 @@
 If you don't already have anaconda environment manager installed on your machine,
 install environment manager anaconda3 from https://www.anaconda.com/distribution/#download-section . 
 
-Or, if you already have Anaconda Envirionment Manager follow the steps below.
+Or, if you already have Anaconda Environment Manager follow the steps below.
 
 1. Create an environment that will be configured for running the ETL application. 
 
@@ -42,7 +42,7 @@ git clone https://github.com/sehokim88/fitbit-etl.git
 cd fitbit-etl 
 ```
 
-5. Install required python pacakges from anaconda distribution.
+5. Install the required python pacakges from anaconda distribution.
 
 ```
 conda install --file requirements.txt
